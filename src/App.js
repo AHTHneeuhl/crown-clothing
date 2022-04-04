@@ -1,5 +1,7 @@
+import HomePage from "./pages/homepage/HomePage";
+
 const App = () => {
-  return null;
+  return <HomePage />;
 };
 
 export default App;
