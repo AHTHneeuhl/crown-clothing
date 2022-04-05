@@ -1,8 +1,9 @@
 import "./MenuItem.styles.scss";
+import { withRouter } from "../../helpers/withRouter";
 
-const MenuItem = ({ title, imageUrl, size }) => {
+const MenuItem = ({ title, imageUrl, size, linkUrl, navigate }) => {
   return (
-    <div className={`menu-item ${size}`}>
+    <div className={`menu-item ${size}`} onClick={() => navigate(`${linkUrl}`)}>
       <div
         className="background-image"
         style={{
@@ -17,4 +18,4 @@ const MenuItem = ({ title, imageUrl, size }) => {
   );
 };
 
-export default MenuItem;
+export default withRouter(MenuItem);
