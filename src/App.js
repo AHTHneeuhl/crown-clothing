@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { onSnapshot } from "firebase/firestore";
 import Header from "./components/header/Header";
@@ -35,21 +35,35 @@ class App extends Component {
   }
 
   render() {
+    const { currentUser } = this.props;
+
     return (
       <div>
         <Header />
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/signin" element={<SignInAndSignUpPage />} />
+          <Route
+            path="/shop"
+            element={currentUser ? <ShopPage /> : <Navigate to="/signin" />}
+          />
+          <Route
+            path="/signin"
+            element={
+              currentUser ? <Navigate to="/" /> : <SignInAndSignUpPage />
+            }
+          />
         </Routes>
       </div>
     );
   }
 }
 
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser,
+});
+
 const mapDispatchToProps = (dispatch) => ({
   setCurrentUser: (user) => dispatch(setCurrentUser(user)),
 });
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);
